@@ -1,0 +1,25 @@
+{
+  "name": "selfinity-lab",
+  "version": "1.0.0",
+  "description": "Code of the SYP Project: Selfinity-Lab, which is a Quiz that recommends appropriate Courses",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "cd backend && npx nodemon server.ts",
+    "frontend": "cd frontend && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/passid23/selfinity-lab.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/passid23/selfinity-lab/issues"
+  },
+  "homepage": "https://github.com/passid23/selfinity-lab#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
