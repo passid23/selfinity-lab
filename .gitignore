@@ -1,3 +1,24 @@
+# IntelliJ IDEA / JetBrains
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+# If you use the built-in terminal or task runners
+cmake-build-*/
+
+# Visual Studio Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+*.code-workspace
+.history/
+
+# OS Metadata
+.DS_Store
+Thumbs.db
+
 # Logs
 logs
 *.log
