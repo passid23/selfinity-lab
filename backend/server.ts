@@ -1,9 +1,11 @@
 import express, { type Request, type Response } from 'express';
 import cors from 'cors';
 import Course from './models/Course';
+import mongoose from "mongoose";
 
 const app = express();
 const PORT = 5000;
+
 
 app.use(cors());
 app.use(express.json());
