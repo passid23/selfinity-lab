@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import LandingPage from "./components/LandingPage/LandingPage.tsx";
 
 function App() {
   const [message, setMessage] = useState('Lade Daten vom Backend...')
@@ -16,13 +17,16 @@ function App() {
       })
   }, [])
 
+
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'sans-serif' }}>
-      <h1>Selfinity-Lab Test</h1>
-      <div style={{ padding: '20px', border: '2px solid #646cff', borderRadius: '10px', display: 'inline-block' }}>
+      //style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'sans-serif' }}
+    <div >
+        {/*style={{ padding: '20px', border: '2px solid #646cff', borderRadius: '10px', display: 'inline-block' }}*/}
+      <div >
         <p>Status vom Backend:</p>
         <h2 style={{ color: '#646cff' }}>{message}</h2>
       </div>
+        <LandingPage />
     </div>
   )
 }
