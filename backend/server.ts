@@ -1,22 +1,39 @@
 import express, { type Request, type Response } from 'express';
 import cors from 'cors';
+import 'dotenv/config';
 import mongoose from "mongoose";
 // WICHTIG: Mit { Course } importieren, weil es ein named export ist!
 import { Course } from './models/Course.ts';
+import { Question } from './models/Question.ts';
+
 
 const app = express();
 const PORT = 5000;
 
 // 1. MONGODB CONNECTION
 // Ersetze 'selfinity-lab' durch deinen tatsächlichen Datenbanknamen
-const MONGO_URI = 'mongodb://127.0.0.1:27017/selfinity-lab';
 
+const MONGO_URI = process.env.MONGO_URI!;
 mongoose.connect(MONGO_URI)
     .then(() => console.log('✅ MongoDB verbunden - yalla!'))
     .catch(err => console.error('❌ MongoDB Verbindungsfehler:', err));
 
 app.use(cors());
 app.use(express.json());
+
+app.get('/api/questions', async (req: Request, res: Response) => {
+  console.log("📢 GET /api/questions wurde aufgerufen!"); // <--- Das hier einfügen
+  try {
+    const questions = await Question.find();
+    console.log("✅ Fragen gefunden:", questions.length); // <--- Und das
+    res.json(questions);
+  } catch (e) {
+    console.error("❌ Fehler in der Route:", e);
+    res.status(500).json({ error: 'Fehler beim Laden der Fragen' });
+  }
+});
+
+
 
 // Standard Route
 app.get('/', (req: Request, res: Response) => {
@@ -35,7 +52,6 @@ app.post('/api/evaluate', async (req: Request, res: Response) => {
       health_fitness: 0
     };
 
-    // Durch alle Antworten loopen
     if (Array.isArray(answers)) {
       answers.forEach((item: any) => {
         if (Object.prototype.hasOwnProperty.call(scores, item.category)) {
@@ -67,7 +83,7 @@ app.post('/api/evaluate', async (req: Request, res: Response) => {
 
         evaluationResults[cat] = {
           score: currentScore,
-          status: currentScore < 10 ? "Anfänger" : "Fortgeschritten",
+          status: currentScore < 10 ? "Anfängjer" : "Fortgeschritten",
           course: recommendedCourse
         };
       }
