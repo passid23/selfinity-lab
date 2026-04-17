@@ -32,7 +32,7 @@ git push origin feature/name
 | Service  | URL                      |
 |----------|--------------------------|
 | Frontend | http://localhost:5173/   |
-| Backend  | http://localhost:5000/   |
+| Backend  | http://localhost:5001/   |
 
 > **Wenn Änderungen nicht durchkommen:** npm console `STRG + C` → Taskmanager alle Node-Prozesse beenden
 
