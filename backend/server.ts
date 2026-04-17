@@ -6,9 +6,8 @@ import mongoose from "mongoose";
 import { Course } from './models/Course.ts';
 import { Question } from './models/Question.ts';
 
-
 const app = express();
-const PORT = 5000;
+const PORT = 5001;
 
 // 1. MONGODB CONNECTION
 // Ersetze 'selfinity-lab' durch deinen tatsächlichen Datenbanknamen
