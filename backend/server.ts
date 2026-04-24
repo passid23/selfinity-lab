@@ -54,41 +54,47 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 
+const getDetailedStatus = (score: number): string => {
+  if (score <= 5) return "Explorer (Einsteiger)";
+  if (score <= 12) return "Builder (Fortgeschritten)";
+  if (score <= 19) return "Advanced (Experte)";
+  return "Elite (Profi)";
+};
+
 app.post('/api/evaluate', async (req: Request, res: Response) => {
   console.log("📢 POST /api/evaluate wurde aufgerufen!");
   try {
     const { answers } = req.body;
 
-    // Eimer vorbereiten (mit Typisierung für TS)
-    const scores: Record<string, number> = {
-      finance: 0,
-      mental_health: 0,
-      health_fitness: 0
-    };
+    // Dynamische Scores: Wir starten mit einem leeren Objekt
+    const scores: Record<string, number> = {};
 
     if (Array.isArray(answers)) {
       answers.forEach((item: any) => {
-        if (Object.prototype.hasOwnProperty.call(scores, item.category)) {
-          scores[item.category] += item.points;
+        // Falls Kategorie noch nicht existiert, mit 0 initialisieren
+        if (!scores[item.category]) {
+          scores[item.category] = 0;
         }
+        scores[item.category] += item.points;
       });
     }
 
     const evaluationResults: Record<string, any> = {};
 
-    // Über die Kategorien loopen und Kurse suchen
+    // Über die Kategorien loopen, die tatsächlich in den Antworten vorkamen
     for (const cat of Object.keys(scores)) {
       const currentScore = scores[cat];
 
+      // Grenze für "Master" bleibt bei 25, alles darunter wird fein abgestuft
       if (currentScore >= 25) {
         evaluationResults[cat] = {
           score: currentScore,
-          status: "Master",
+          status: "Legend",
           course: null,
-          message: "Du bist bereits ein Profi!"
+          message: "Du hast dieses Level bereits gemeistert!"
         };
       } else {
-        // Findet den Kurs, der zum Score passt
+        // Sucht den exakt passenden Kurs aus der DB für dieses Punkte-Intervall
         const recommendedCourse = await Course.findOne({
           category: cat,
           minPoints: { $lte: currentScore },
@@ -97,7 +103,7 @@ app.post('/api/evaluate', async (req: Request, res: Response) => {
 
         evaluationResults[cat] = {
           score: currentScore,
-          status: currentScore < 10 ? "Anfänger" : "Fortgeschritten",
+          status: getDetailedStatus(currentScore),
           course: recommendedCourse
         };
       }
