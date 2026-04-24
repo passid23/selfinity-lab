@@ -22,7 +22,7 @@ app.use(express.json());
 app.get('/api/questions', async (req: Request, res: Response) => {
   console.log("📢 GET /api/questions wurde aufgerufen!");
   try {
-    const questions = await Question.find();
+    const questions = await Question.find().sort({ category: 1 });
     console.log("✅ Fragen gefunden:", questions.length);
     res.json(questions);
   } catch (e) {
@@ -31,11 +31,11 @@ app.get('/api/questions', async (req: Request, res: Response) => {
   }
 });
 
-// ─── COURSES ROUTE (Gleich wie Questions) ────────────────────────────────────
+// ─── COURSES ROUTE ───────────────────────────────────────────────────────────
 app.get('/api/courses', async (req: Request, res: Response) => {
   console.log("📢 GET /api/courses wurde aufgerufen!");
   try {
-    const courses = await Course.find();
+    const courses = await Course.find().sort({ minPoints: 1 });
     console.log("✅ Kurse gefunden:", courses.length);
     res.json(courses);
   } catch (e) {
@@ -44,13 +44,9 @@ app.get('/api/courses', async (req: Request, res: Response) => {
   }
 });
 
-// ─── ROOT ROUTE ──────────────────────────────────────────────────────────────
-app.get('/', (req: Request, res: Response) => {
-  res.send('express läuft und MongoDB ist bereit');
-});
-
-
+// ─── EVALUATE ROUTE ──────────────────────────────────────────────────────────
 app.post('/api/evaluate', async (req: Request, res: Response) => {
+  console.log("📢 POST /api/evaluate wurde aufgerufen!");
   try {
     const { answers } = req.body;
 
@@ -92,7 +88,7 @@ app.post('/api/evaluate', async (req: Request, res: Response) => {
 
         evaluationResults[cat] = {
           score: currentScore,
-          status: currentScore < 10 ? "Anfängjer" : "Fortgeschritten",
+          status: currentScore < 10 ? "Anfänger" : "Fortgeschritten",
           course: recommendedCourse
         };
       }
@@ -101,9 +97,14 @@ app.post('/api/evaluate', async (req: Request, res: Response) => {
     res.json(evaluationResults);
 
   } catch (err) {
-    console.error("Fehler bei Evaluate:", err);
+    console.error("❌ Fehler bei Evaluate:", err);
     res.status(500).json({ error: "Server Error", details: err });
   }
+});
+
+// ─── ROOT ROUTE ──────────────────────────────────────────────────────────────
+app.get('/', (req: Request, res: Response) => {
+  res.send('express läuft und MongoDB ist bereit');
 });
 
 app.listen(PORT, () => {
