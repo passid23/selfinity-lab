@@ -39,7 +39,7 @@ app.get('/', (req: Request, res: Response) => {
   res.send('express läuft und MongoDB ist bereit');
 });
 
-// 2. DIE SORTIERLOGIK (EVALUATE)
+
 app.post('/api/evaluate', async (req: Request, res: Response) => {
   try {
     const { answers } = req.body;
