@@ -2,13 +2,15 @@ import express, { type Request, type Response } from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 import mongoose from "mongoose";
-
-// Importiere die Modelle aus den separaten Dateien
-import { Question } from './models/Question.ts';
+// WICHTIG: Mit { Course } importieren, weil es ein named export ist!
 import { Course } from './models/Course.ts';
+import { Question } from './models/Question.ts';
 
 const app = express();
 const PORT = 5001;
+
+// 1. MONGODB CONNECTION
+// Ersetze 'selfinity-lab' durch deinen tatsächlichen Datenbanknamen
 
 const MONGO_URI = process.env.MONGO_URI!;
 mongoose.connect(MONGO_URI)
@@ -18,12 +20,11 @@ mongoose.connect(MONGO_URI)
 app.use(cors());
 app.use(express.json());
 
-// ─── QUESTIONS ROUTE ─────────────────────────────────────────────────────────
 app.get('/api/questions', async (req: Request, res: Response) => {
-  console.log("📢 GET /api/questions wurde aufgerufen!");
+  console.log("📢 GET /api/questions wurde aufgerufen!"); // <--- Das hier einfügen
   try {
-    const questions = await Question.find().sort({ category: 1 });
-    console.log("✅ Fragen gefunden:", questions.length);
+    const questions = await Question.find();
+    console.log("✅ Fragen gefunden:", questions.length); // <--- Und das
     res.json(questions);
   } catch (e) {
     console.error("❌ Fehler in der Route:", e);
@@ -45,6 +46,14 @@ app.get('/api/courses', async (req: Request, res: Response) => {
 });
 
 // ─── EVALUATE ROUTE ──────────────────────────────────────────────────────────
+
+
+// Standard Route
+app.get('/', (req: Request, res: Response) => {
+  res.send('express läuft und MongoDB ist bereit');
+});
+
+
 app.post('/api/evaluate', async (req: Request, res: Response) => {
   console.log("📢 POST /api/evaluate wurde aufgerufen!");
   try {
