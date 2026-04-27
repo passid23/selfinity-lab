@@ -1,6 +1,10 @@
 import './LandingPage.css'
 
-function LandingPage() {
+interface LandingPageProps {
+    onStart: () => void;
+}
+
+export const LandingPage = ({onStart}: LandingPageProps) =>  {
     return (
         <div className="landing-container">
             {/* 1. HERO SECTION */}
@@ -10,7 +14,7 @@ function LandingPage() {
                     In nur 2 Minuten analysieren wir deine Performance in den drei wichtigsten Lebensbereichen:
                     <strong> Fitness, Finanzen & Geist.</strong> Finde heraus, wo du stehst und wo dein größtes Potenzial schlummert.
                 </p>
-                <a href="#quiz" className="cta-button">Jetzt Gratis-Checkup starten</a>
+                <button onClick={onStart} className="cta-button">Jetzt Gratis-Checkup starten</button>
             </header>
 
             {/* 2. DIE 3 SÄULEN */}
@@ -34,7 +38,7 @@ function LandingPage() {
                 </div>
                 {/* Zwischen-Link zum Quiz */}
                 <div className="mid-cta">
-                    <a href="#quiz">Direkt zum Test</a>
+                    <a onClick={onStart}>Direkt zum Test</a>
                 </div>
             </section>
 
@@ -85,10 +89,8 @@ function LandingPage() {
             <footer className="footer-cta">
                 <h2>Bereit für die Wahrheit?</h2>
                 <p>Keine Anmeldung nötig. 15 Fragen. 100% Klarheit.</p>
-                <a href="#quiz" className="cta-button-large">Quiz jetzt starten</a>
+                <button onClick={onStart} className="cta-button-large">Quiz jetzt starten</button>
             </footer>
         </div>
     )
 }
-
-export default LandingPage
