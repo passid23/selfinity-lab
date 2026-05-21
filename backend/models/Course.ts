@@ -10,3 +10,13 @@ const CourseSchema = new mongoose.Schema({
 });
 
 export const Course = mongoose.model('Course', CourseSchema);
+
+export interface ICourse extends Document {
+    _id: string;
+    title: string;
+    category: string;
+    minPoints: number;
+    maxPoints: number;
+    description: string;
+    link: string;
+}

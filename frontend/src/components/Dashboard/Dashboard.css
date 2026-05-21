@@ -1,0 +1,312 @@
+/* --- Global Dashboard Styling & Screen Configurations --- */
+:root {
+    --bg-dark: #070B14;
+    --card-bg: #111A2C;
+    --card-bg-hover: #17233B;
+    --text-main: #FFFFFF;
+    --text-muted: #8BA3CB;
+    --accent-cyan: #72E0FA;
+    --accent-cyan-glow: rgba(114, 224, 250, 0.15);
+    --border-color: #1E2B45;
+}
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: var(--bg-dark);
+}
+
+/* --- Section 1: Dashboard Viewport Grid --- */
+.analytics-screen {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+.analytics-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.dashboard-title {
+    font-size: 2.6rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-main);
+}
+
+.dashboard-title span {
+    color: var(--accent-cyan);
+}
+
+.dashboard-subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-top: 5px;
+}
+
+/* 4-Item Grid Structure spanning viewport comfortably */
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
+    flex-grow: 1;
+    max-height: 70vh;
+}
+
+/* --- Reusable Chart Base Cards --- */
+.chart-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.chart-card h3 {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.chart-container {
+    width: 100%;
+    flex-grow: 1;
+    min-height: 240px; /* Enhanced baseline to protect radar sizing */
+}
+
+/* Desktop Grid Assignments */
+.charts-grid > .chart-card:nth-child(1) { grid-column: span 5; } /* Radar */
+.charts-grid > .chart-card:nth-child(2) { grid-column: span 7; } /* Bar Chart */
+.charts-grid > .chart-card:nth-child(3) { grid-column: span 4; } /* Radial Chart */
+.charts-grid > .chart-card:nth-child(4) { grid-column: span 8; } /* Balance info */
+
+/* --- Custom Styled KPI Components --- */
+.radial-container {
+    position: relative;
+}
+
+.radial-center-text {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.radial-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.radial-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+/* Balance Info Box Visual Styling */
+.balance-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    padding: 10px 20px;
+}
+
+.balance-score-display {
+    margin-bottom: 10px;
+}
+
+.score-num {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--accent-cyan);
+}
+
+.score-max {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+}
+
+.balance-status {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text-main);
+}
+
+.balance-tip {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-style: italic;
+    max-width: 500px;
+}
+
+/* --- Section 2: Courses Display Layout --- */
+.courses-screen {
+    max-width: 1200px;
+    margin: 60px auto 0 auto;
+    padding: 0 20px;
+}
+
+.results-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    color: var(--text-main);
+}
+
+.section-title span {
+    color: var(--accent-cyan);
+}
+
+.section-subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+/* --- Course Card Inner Elements --- */
+.course-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+.course-card:hover {
+    background-color: var(--card-bg-hover);
+    border-color: var(--accent-cyan);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px var(--accent-cyan-glow);
+}
+
+.course-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.course-category {
+    color: var(--accent-cyan);
+    background-color: rgba(114, 224, 250, 0.1);
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+.course-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text-main);
+}
+
+.course-description {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 32px;
+    flex-grow: 1;
+}
+
+.course-btn {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #070B14;
+    background-color: var(--accent-cyan);
+    padding: 14px 24px;
+    border-radius: 30px;
+    transition: all 0.2s ease;
+    border: 2px solid var(--accent-cyan);
+    cursor: pointer;
+}
+
+.course-btn:hover {
+    background-color: transparent;
+    color: var(--accent-cyan);
+    box-shadow: 0 0 15px var(--accent-cyan-glow);
+}
+
+.error-text {
+    color: #ff4d4d;
+    text-align: center;
+    font-weight: 600;
+}
+
+.loading-text {
+    color: var(--text-muted);
+    text-align: center;
+    grid-column: 1 / -1;
+}
+
+/* --- Responsive Mobile Breakpoints --- */
+@media (max-width: 1024px) {
+    .charts-grid {
+        max-height: none;
+        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .charts-grid > .chart-card {
+        grid-column: span 12 !important;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .analytics-screen {
+        min-height: auto;
+        padding: 20px 10px;
+    }
+
+    /* FIX: 'height' statt nur 'min-height' zwingt den Browser,
+       die Höhe für Recharts exakt zu berechnen */
+    .chart-container {
+        height: 320px;
+        min-height: 320px;
+    }
+}

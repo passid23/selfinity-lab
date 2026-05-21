@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { LandingPage } from "./components/LandingPage/LandingPage.tsx";
 import Quiz from "./components/Quiz/Quiz.tsx";
+import {Dashboard} from "./components/Dashboard/Dashboard.tsx";
+import logo from './assets/selfinity.png';
 
 
 export interface Option {
@@ -17,24 +19,32 @@ export interface Question {
     options: Option[];
 }
 
-function App() {
-    const [message, setMessage] = useState('Lade Daten vom Backend...')
-    const [questions, setQuestions] = useState<Question[]>([]); // New state for questions
-    const [page, setPage] = useState<'landing' | 'quiz' | 'dashboard'>('landing');
+export interface Answer {
+    questionId: string;
+    selectedOption: Option;
+}
 
-    // Separate function to fetch questions
-    const loadQuestions = async () => {
-        try {
-            const response = await axios.get<Question[]>('http://localhost:5001/api/questions');
-            setQuestions(response.data);
-            console.log("Fragen geladen:", response.data);
-        } catch (error) {
-            console.error("Fehler beim Laden der Fragen!", error);
-        }
+export interface Course {
+    _id: string;
+    title: string;
+    category: string;
+    minPoints: number;
+    maxPoints: number;
+    description: string;
+    link: string;
+}
+
+function App() {
+    const [questions, setQuestions] = useState<Question[]>([]);
+    const [page, setPage] = useState<'landing' | 'quiz' | 'dashboard'>('landing');
+    const [quizResults, setQuizResults] = useState<Answer[]>([]);
+
+    const handleQuizComplete = (finalAnswers: Answer[]) => {
+        setQuizResults(finalAnswers); // Store the answers
+        setPage('dashboard');       // Switch to dashboard
     };
 
     useEffect(() => {
-        // 1. Move the logic inside
         const loadQuestions = async () => {
             try {
                 const response = await axios.get<Question[]>('http://localhost:5001/api/questions');
@@ -44,17 +54,27 @@ function App() {
             }
         };
 
-        // 2. Status check
+        // Status check
         axios.get('http://localhost:5001/')
-            .then(response => setMessage(response.data))
-            .catch(() => setMessage("Backend nicht erreichbar! ❌"));
+            .then(response => console.log(response.data))
+            .catch(() => console.error("Backend nicht erreichbar! ❌"));
 
-        // 3. Call it
+
         loadQuestions();
-    }, []); // Empty dependency array means "only on mount"
+    }, []);
 
     return (
-        <div>
+        <div style={{backgroundColor: '#070B14'}}>
+            <img src={logo} alt="logo"
+                 style={{
+                     position: 'absolute',
+                     top: '5px',
+                     left: '10px',
+                     height: '160px',
+                     width: 'auto',
+                     zIndex: 10
+                 }}/>
+
             {page === 'landing' && (
                 <LandingPage onStart={() => setPage('quiz')} />
             )}
@@ -63,14 +83,15 @@ function App() {
                 /* Pass the fetched questions here */
                 <Quiz
                     questions={questions}
-                    onComplete={() => setPage('dashboard')}
+                    onComplete={handleQuizComplete}
                 />
             )}
 
             {page === 'dashboard' && (
-                <div>
-
-                </div>
+                <Dashboard
+                    answers={quizResults}
+                    questions={questions}
+                />
             )}
         </div>
     )

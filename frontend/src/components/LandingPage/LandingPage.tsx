@@ -36,7 +36,6 @@ export const LandingPage = ({onStart}: LandingPageProps) =>  {
                         <p>Mentale Stärke, Fokus und innere Ruhe. Beherrschst du deine Gedanken oder beherrschen sie dich?</p>
                     </article>
                 </div>
-                {/* Zwischen-Link zum Quiz */}
                 <div className="mid-cta">
                     <a onClick={onStart}>Direkt zum Test</a>
                 </div>
