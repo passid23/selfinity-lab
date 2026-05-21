@@ -1,22 +1,13 @@
-import QuestionCard from "../QuestionCard/QuestionCard.tsx";
-import type { Option, Question } from "../../App.tsx";
+import QuestionCard from "./QuestionCard.tsx";
+import type {Answer, Option, Question} from "../../App.tsx";
 import { useState } from "react";
 import './Quiz.css';
 
-// 1. Define the shape of a single answer
-interface Answer {
-    questionId: string;
-    selectedOption: Option;
-}
 
-const Quiz = ({ questions, onComplete }: { questions: Question[], onComplete: () => void }) => {
-    // Fixed: Removed the empty <> and ensured it's typed as a number
+const Quiz = ({ questions, onComplete }: { questions: Question[], onComplete: (finalAnswers: Answer[]) => void }) => {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
-    // Fixed: Defined the state as an array of Answers to avoid the 'never' error
     const [answers, setAnswers] = useState<Answer[]>([]);
 
-    // IMPORTANT: If questions haven't arrived yet, show a loading state
-    // This prevents the "Cannot read properties of undefined (reading '0')" error
     if (!questions || questions.length === 0) {
         return (
             <div className="quiz-container">
@@ -26,21 +17,23 @@ const Quiz = ({ questions, onComplete }: { questions: Question[], onComplete: ()
     }
 
     const handleNext = (selectedOption: Option) => {
-        setAnswers(prevAnswers => [
-            ...prevAnswers,
-            { questionId: questions[currentIndex]._id, selectedOption }
-        ]);
+        const newAnswer = {
+            questionId: questions[currentIndex]._id,
+            selectedOption
+        };
+
+        const updatedAnswers = [...answers, newAnswer];
 
         if (currentIndex < questions.length - 1) {
+            setAnswers(updatedAnswers);
             setCurrentIndex(prev => prev + 1);
         } else {
-            onComplete();
+            onComplete(updatedAnswers);
         }
-    };
+    }
 
     const currentQuestion = questions[currentIndex];
 
-    // 2. SECONDARY GUARD: In case index gets out of sync
     if (!currentQuestion) return <div>Frage nicht gefunden.</div>;
 
     const progressPercentage = ((currentIndex + 1) / questions.length) * 100;

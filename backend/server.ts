@@ -3,11 +3,16 @@ import cors from 'cors';
 import 'dotenv/config';
 import mongoose from "mongoose";
 // WICHTIG: Mit { Course } importieren, weil es ein named export ist!
-import { Course } from './models/Course.ts';
-import { Question } from './models/Question.ts';
+import {Course, type ICourse} from './models/Course.ts';
+import {type IQuestion, type IOption,Question} from './models/Question.ts';
 
 const app = express();
 const PORT = 5001;
+
+interface IAnswer {
+  questionId: string;
+  selectedOption: IOption;
+}
 
 // 1. MONGODB CONNECTION
 // Ersetze 'selfinity-lab' durch deinen tatsächlichen Datenbanknamen
@@ -21,10 +26,10 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/api/questions', async (req: Request, res: Response) => {
-  console.log("📢 GET /api/questions wurde aufgerufen!"); // <--- Das hier einfügen
   try {
     const questions = await Question.find();
-    console.log("✅ Fragen gefunden:", questions.length); // <--- Und das
+    console.log("✅ Fragen gefunden:", questions.length);
+
     res.json(questions);
   } catch (e) {
     console.error("❌ Fehler in der Route:", e);
@@ -32,21 +37,18 @@ app.get('/api/questions', async (req: Request, res: Response) => {
   }
 });
 
-// ─── COURSES ROUTE ───────────────────────────────────────────────────────────
 app.get('/api/courses', async (req: Request, res: Response) => {
-  console.log("📢 GET /api/courses wurde aufgerufen!");
   try {
     const courses = await Course.find().sort({ minPoints: 1 });
     console.log("✅ Kurse gefunden:", courses.length);
+
     res.json(courses);
+
   } catch (e) {
     console.error("❌ Fehler in der Kurs-Route:", e);
     res.status(500).json({ error: 'Fehler beim Laden der Kurse' });
   }
 });
-
-// ─── EVALUATE ROUTE ──────────────────────────────────────────────────────────
-
 
 // Standard Route
 app.get('/', (req: Request, res: Response) => {
@@ -55,65 +57,47 @@ app.get('/', (req: Request, res: Response) => {
 
 
 app.post('/api/evaluate', async (req: Request, res: Response) => {
-  console.log("📢 POST /api/evaluate wurde aufgerufen!");
   try {
-    const { answers } = req.body;
+    const { answers } = req.body as {answers: IAnswer[]};
+    const allQuestions: IQuestion[] = await Question.find();
+    const allCourses: ICourse[] = await Course.find();
 
-    // Eimer vorbereiten (mit Typisierung für TS)
-    const scores: Record<string, number> = {
-      finance: 0,
-      mental_health: 0,
-      health_fitness: 0
-    };
+    // Object to hold scores: e.g., { "finance": 10, "mental_health": 5 }
+    const categoryScores: Record<string, number> = {};
 
-    if (Array.isArray(answers)) {
-      answers.forEach((item: any) => {
-        if (Object.prototype.hasOwnProperty.call(scores, item.category)) {
-          scores[item.category] += item.points;
+    answers.forEach((ans: IAnswer) => {
+      const question = allQuestions.find(q => q._id.toString() === ans.questionId);
+
+      if (question) {
+        const cat = question.category;
+        const points = ans.selectedOption.points;
+
+        if (!categoryScores[cat]) {
+          categoryScores[cat] = 0;
         }
-      });
-    }
-
-    const evaluationResults: Record<string, any> = {};
-
-    // Über die Kategorien loopen und Kurse suchen
-    for (const cat of Object.keys(scores)) {
-      const currentScore = scores[cat];
-
-      if (currentScore >= 25) {
-        evaluationResults[cat] = {
-          score: currentScore,
-          status: "Master",
-          course: null,
-          message: "Du bist bereits ein Profi!"
-        };
-      } else {
-        // Findet den Kurs, der zum Score passt
-        const recommendedCourse = await Course.findOne({
-          category: cat,
-          minPoints: { $lte: currentScore },
-          maxPoints: { $gte: currentScore }
-        });
-
-        evaluationResults[cat] = {
-          score: currentScore,
-          status: currentScore < 10 ? "Anfänger" : "Fortgeschritten",
-          course: recommendedCourse
-        };
+        categoryScores[cat] += points;
       }
-    }
+    });
 
-    res.json(evaluationResults);
+    // Filter courses based on the points calculated
+    const recommendations = allCourses.filter(course => {
+      const userScore = categoryScores[course.category] || 0;
+      return userScore >= course.minPoints && userScore <= course.maxPoints;
+    });
 
-  } catch (err) {
-    console.error("❌ Fehler bei Evaluate:", err);
-    res.status(500).json({ error: "Server Error", details: err });
+    res.json({
+      scores: categoryScores,
+      courses: recommendations
+    });
+
+  } catch (error) {
+    console.error("Recommendation Error:", error);
+    res.status(500).json({ message: "Failed to process recommendations" });
   }
 });
 
-// ─── ROOT ROUTE ──────────────────────────────────────────────────────────────
 app.get('/', (req: Request, res: Response) => {
-  res.send('express läuft und MongoDB ist bereit');
+  res.send('express läuft');
 });
 
 app.listen(PORT, () => {

@@ -16,3 +16,16 @@ const QuestionSchema = new mongoose.Schema({
 });
 
 export const Question = mongoose.model('Question', QuestionSchema);
+
+export interface IOption extends Document{
+    _id: string;
+    text: string;
+    points: number;
+}
+
+export interface IQuestion extends Document {
+    _id: string;
+    category: string;
+    text: string;
+    options: IOption[];
+}

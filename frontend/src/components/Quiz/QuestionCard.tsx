@@ -1,5 +1,5 @@
 import type {Option, Question} from "../../App.tsx";
-import '../Quiz/Quiz.css';
+import './Quiz.css';
 
 const QuestionCard = ({ question, onAnswer }: { question: Question, onAnswer: (opt: Option) => void }) => {
     return (
