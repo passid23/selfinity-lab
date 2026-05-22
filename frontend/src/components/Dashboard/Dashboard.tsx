@@ -122,7 +122,7 @@ export const Dashboard = ({ answers, questions } : DashboardProps) => {
                                     />
                                     <Tooltip
                                         contentStyle={{ backgroundColor: '#111A2C', borderColor: '#1E2B45', color: '#fff' }}
-                                        formatter={(value) => [`${value}%`, "Erfüllung"]}
+                                        formatter={(value: unknown) => [`${value}%`, "Erfüllung"]}
                                     />
                                 </RadarChart>
                             </ResponsiveContainer>
