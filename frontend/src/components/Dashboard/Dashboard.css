@@ -58,7 +58,7 @@
     grid-template-columns: repeat(12, 1fr);
     gap: 20px;
     flex-grow: 1;
-    max-height: 70vh;
+    max-height: none;
 }
 
 /* --- Reusable Chart Base Cards --- */
@@ -284,7 +284,7 @@
 }
 
 /* --- Responsive Mobile Breakpoints --- */
-@media (max-width: 1024px) {
+@media (max-width: 1100px) {
     .charts-grid {
         max-height: none;
         grid-template-columns: 1fr;
@@ -300,7 +300,13 @@
 
     .analytics-screen {
         min-height: auto;
-        padding: 20px 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        box-sizing: border-box;
     }
 
     .chart-container {

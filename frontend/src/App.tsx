@@ -34,6 +34,7 @@ export interface Course {
     link: string;
 }
 
+
 function App() {
     const [questions, setQuestions] = useState<Question[]>([]);
     const [page, setPage] = useState<'landing' | 'quiz' | 'dashboard'>('landing');
