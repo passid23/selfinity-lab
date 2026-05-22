@@ -20,7 +20,7 @@ export const Dashboard = ({ answers, questions } : DashboardProps) => {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        axios.post("http://localhost:5001/api/evaluate", { answers })
+        axios.post("https://selfinity-lab.onrender.com/api/evaluate", { answers })
             .then((response) => {
                 setRecommendedCourses(response.data.courses);
             })
