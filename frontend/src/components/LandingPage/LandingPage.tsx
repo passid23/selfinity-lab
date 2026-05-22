@@ -7,7 +7,7 @@ interface LandingPageProps {
 export const LandingPage = ({onStart}: LandingPageProps) =>  {
     return (
         <div className="landing-container">
-            {/* 1. HERO SECTION */}
+            {/* 1. hero section */}
             <header className="hero-section">
                 <h1>Wie fit bist du wirklich?</h1>
                 <p className="subline">
@@ -17,7 +17,7 @@ export const LandingPage = ({onStart}: LandingPageProps) =>  {
                 <button onClick={onStart} className="cta-button">Jetzt Gratis-Checkup starten</button>
             </header>
 
-            {/* 2. DIE 3 SÄULEN */}
+            {/* 2. The 3 Pillars */}
             <section className="pillars-section">
                 <h2>Die 3 Säulen deines Erfolgs</h2>
                 <div className="pillars-grid">
@@ -41,7 +41,7 @@ export const LandingPage = ({onStart}: LandingPageProps) =>  {
                 </div>
             </section>
 
-            {/* 3. PAIN POINT & LÖSUNG */}
+            {/* 3. problem & solution */}
             <section className="problem-solution">
                 <h2>Warum Balance alles ist</h2>
                 <p>
@@ -53,7 +53,7 @@ export const LandingPage = ({onStart}: LandingPageProps) =>  {
                 </p>
             </section>
 
-            {/* 4. NUTZEN (BENEFITS) */}
+            {/* 4. Benefits / Use cases */}
             <section className="benefits">
                 <h2>Was du nach dem Quiz erhältst:</h2>
                 <ul>
@@ -66,13 +66,13 @@ export const LandingPage = ({onStart}: LandingPageProps) =>  {
                         Konkrete Schritte, um dein nächstes Level zu erreichen.
                     </li>
                     <li>
-                        <strong>Benchmark-Vergleich:</strong>
-                        Sieh, wie du im Vergleich zum Durchschnitt abschneidest.
+                        <strong>Säulen-Abgleich:</strong>
+                        Decke das Ungleichgewicht zwischen Körper, Geld und Geist auf, bevor es zu echtem Stress führt.
                     </li>
                 </ul>
             </section>
 
-            {/* 5. SOCIAL PROOF */}
+            {/* 5. social proof */}
             <section className="social-proof">
                 <div className="stats">
                     <span className="stat-number">500+</span>
@@ -84,7 +84,7 @@ export const LandingPage = ({onStart}: LandingPageProps) =>  {
                 </blockquote>
             </section>
 
-            {/* 6. FINALER CTA */}
+            {/* 6. final call to action */}
             <footer className="footer-cta">
                 <h2>Bereit für die Wahrheit?</h2>
                 <p>Keine Anmeldung nötig. 15 Fragen. 100% Klarheit.</p>

@@ -3,7 +3,7 @@ import './Dashboard.css';
 
 const CourseCard = ({ title, category, description, link }: Course) => {
 
-    // Optional: Map internal category names to display names
+    // change internal categories to display names
     const formatCategory = (cat: string) => {
         const categories: Record<string, string> = {
             finance: "Finanzen",

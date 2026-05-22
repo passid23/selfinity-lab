@@ -30,9 +30,9 @@ export const Dashboard = ({ answers, questions } : DashboardProps) => {
             });
     }, [answers]);
 
-    // --- Data Processing for Recharts ---
+    //  Data Processing for Recharts
+    // useMemo to fix API bugs and have great performance
     const analyticsData = useMemo(() => {
-        // Initialize maps for scores
         const currentScores: Record<string, number> = { health_fitness: 0, finance: 0, mental_health: 0 };
         const maxPossibleScores: Record<string, number> = { health_fitness: 0, finance: 0, mental_health: 0 };
 
@@ -52,7 +52,7 @@ export const Dashboard = ({ answers, questions } : DashboardProps) => {
             }
         });
 
-        // Display labels mapping
+
         const labelMap: Record<string, string> = {
             health_fitness: "Fitness",
             finance: "Finanzen",
@@ -93,16 +93,18 @@ export const Dashboard = ({ answers, questions } : DashboardProps) => {
 
     return (
         <div className="dashboard-container">
+            {/* if error occurs display it */}
+            {error && <p style={{ color: "red" }}>{error}</p>}
 
-            {/* here will be diagrams in the future*/}
+            {/* Diagrams section */}
             <section className="analytics-screen">
                 <div className="analytics-header">
                     <h1 className="dashboard-title">Dein <span>Performance Profil</span></h1>
                     <p className="dashboard-subtitle">Auswertung deiner aktuellen Lebensbalance</p>
                 </div>
 
+                {/* Radar Chart */}
                 <div className="charts-grid">
-                    {/* Item 1: The Required Radar Chart */}
                     <div className="chart-card radar-item">
                         <h3>Stärken-Profil</h3>
                         <div className="chart-container">
@@ -110,7 +112,6 @@ export const Dashboard = ({ answers, questions } : DashboardProps) => {
                                 <RadarChart cx="50%" cy="50%" outerRadius="75%" data={analyticsData.chartData}>
                                     <PolarGrid stroke="#1E2B45" />
                                     <PolarAngleAxis dataKey="subject" stroke="#8BA3CB" tick={{ fontSize: 13, fontWeight: 600 }} />
-                                    {/* Fixed Domain to 0-100% fixes the scaling bug entirely */}
                                     <PolarRadiusAxis angle={90} domain={[0, 100]} tickCount={6} stroke="#1E2B45" tick={{ fill: '#4E617E', fontSize: 11 }} />
                                     <Radar
                                         name="Erreicht (%)"
@@ -128,7 +129,7 @@ export const Dashboard = ({ answers, questions } : DashboardProps) => {
                         </div>
                     </div>
 
-                    {/* Item 2: Bar Chart showing comparisons */}
+                    {/*  Bar Chart */}
                     <div className="chart-card">
                         <h3>Punkte-Vergleich</h3>
                         <div className="chart-container">
@@ -145,7 +146,7 @@ export const Dashboard = ({ answers, questions } : DashboardProps) => {
                         </div>
                     </div>
 
-                    {/* Item 3: Radial Overall Performance */}
+                    {/* Radial Chart */}
                     <div className="chart-card radial-card">
                         <h3>Gesamtergebnis</h3>
                         <div className="chart-container radial-container">
@@ -162,7 +163,7 @@ export const Dashboard = ({ answers, questions } : DashboardProps) => {
                         </div>
                     </div>
 
-                    {/* Item 4: Informational Balance KPI Card */}
+                    {/* Balance Info */}
                     <div className="chart-card balance-card">
                         <h3>Lebens-Balance</h3>
                         <div className="balance-content">
@@ -181,13 +182,12 @@ export const Dashboard = ({ answers, questions } : DashboardProps) => {
                 </div>
             </section>
 
-            {/* SCREEN 2: Recommended Courses Grid */}
+            {/* Course Section */}
             <section className="courses-screen">
             <div className="results-header">
                 <h2 className="section-title">Dein <span>nächstes Level</span></h2>
                 <p className="section-subtitle">Basierend auf deiner Analyse haben wir diese Module für dich freigeschaltet.</p>
             </div>
-
 
             <div className="course-grid">
                 {recommendedCourses.length === 0 && !error ? (
@@ -199,8 +199,6 @@ export const Dashboard = ({ answers, questions } : DashboardProps) => {
                 )}
             </div>
             </section>
-
-            {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
     );
 };

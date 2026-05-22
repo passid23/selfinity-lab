@@ -303,8 +303,6 @@
         padding: 20px 10px;
     }
 
-    /* FIX: 'height' statt nur 'min-height' zwingt den Browser,
-       die Höhe für Recharts exakt zu berechnen */
     .chart-container {
         height: 320px;
         min-height: 320px;

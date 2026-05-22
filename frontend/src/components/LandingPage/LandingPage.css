@@ -1,11 +1,5 @@
-/* ================================================
-   LANDING PAGE — Tech-Success Dark Theme
-   Navy × Cyan × Line-Art Glow
-   ================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
 
-/* ── CUSTOM PROPERTIES ── */
 :root {
     --navy-deep:   #050d1a;
     --navy-mid:    #0a1628;
@@ -33,7 +27,7 @@
     --shadow-card: 0 4px 32px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.05) inset;
 }
 
-/* ── RESET & BASE ── */
+/*  RESET & BASE  */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -44,7 +38,7 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* ── GRID BACKGROUND UTILITY ── */
+/*  GRID BACKGROUND UTILITY  */
 .grid-bg {
     position: relative;
 }
@@ -59,15 +53,13 @@ body {
     z-index: 0;
 }
 
-/* ── LANDING WRAPPER ── */
+/*  Landing Wrapper  */
 .landing-container {
     width: 100%;
     overflow-x: hidden;
 }
 
-/* ════════════════════════════════════════════
-   1. HERO
-════════════════════════════════════════════ */
+/* Hero */
 .hero-section {
     position: relative;
     min-height: 92vh;
@@ -158,9 +150,7 @@ body {
     cursor: pointer;
 }
 
-/* ════════════════════════════════════════════
-   2. PILLARS
-════════════════════════════════════════════ */
+/* PILLARS */
 .pillars-section {
     position: relative;
     padding: 6rem 1.5rem;
@@ -247,9 +237,7 @@ body {
     cursor: pointer;
 }
 
-/* ════════════════════════════════════════════
-   3. PROBLEM / SOLUTION  (light section)
-════════════════════════════════════════════ */
+/* PROBLEM / SOLUTION  (light section) */
 .problem-solution {
     background: var(--light-bg);
     padding: 5.5rem 1.5rem;
@@ -283,9 +271,7 @@ body {
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
-/* ════════════════════════════════════════════
-   4. BENEFITS
-════════════════════════════════════════════ */
+/* BENEFITS */
 .benefits {
     background: var(--navy-deep);
     padding: 6rem 1.5rem;
@@ -352,9 +338,7 @@ body {
 }
 .benefits li strong { display: block; color: var(--white); font-weight: 600; margin-bottom: 0.2rem; }
 
-/* ════════════════════════════════════════════
-   5. SOCIAL PROOF
-════════════════════════════════════════════ */
+/* SOCIAL PROOF */
 .social-proof {
     background: var(--navy-mid);
     padding: 5rem 1.5rem;
@@ -421,9 +405,7 @@ body {
     font-weight: 600;
 }
 
-/* ════════════════════════════════════════════
-   6. FOOTER CTA
-════════════════════════════════════════════ */
+/* FOOTER CTA */
 .footer-cta {
     position: relative;
     padding: 7rem 1.5rem;
@@ -489,13 +471,13 @@ body {
     cursor: pointer;
 }
 
-/* ── SCROLL ANIMATIONS ── */
+/* SCROLL ANIMATIONS  */
 @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── RESPONSIVE ── */
+/*  RESPONSIVE */
 @media (max-width: 640px) {
     .pillars-grid { grid-template-columns: 1fr; }
     .hero-section { min-height: 80vh; }
