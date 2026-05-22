@@ -57,7 +57,7 @@ function App() {
         // Status check
         axios.get('http://localhost:5001/')
             .then(response => console.log(response.data))
-            .catch(() => console.error("Backend nicht erreichbar! ❌"));
+            .catch(() => console.error("Backend nicht erreichbar!"));
 
 
         loadQuestions();
@@ -65,22 +65,24 @@ function App() {
 
     return (
         <div style={{backgroundColor: '#070B14'}}>
-            <img src={logo} alt="logo"
-                 style={{
-                     position: 'absolute',
-                     top: '5px',
-                     left: '10px',
-                     height: '160px',
-                     width: 'auto',
-                     zIndex: 10
-                 }}/>
+                <img src={logo} alt="logo"
+                     style={{
+                         position: 'absolute',
+                         top: '50px',
+                         left: '48px',
+                         height: '60px',
+                         width: 'auto',
+                         zIndex: 10,
+                         cursor: 'pointer',
+                     }}
+                     onClick={() => setPage('landing')}
+                />
 
             {page === 'landing' && (
                 <LandingPage onStart={() => setPage('quiz')} />
             )}
 
             {page === 'quiz' && (
-                /* Pass the fetched questions here */
                 <Quiz
                     questions={questions}
                     onComplete={handleQuizComplete}

@@ -19,8 +19,8 @@ interface IAnswer {
 
 const MONGO_URI = process.env.MONGO_URI!;
 mongoose.connect(MONGO_URI)
-    .then(() => console.log('✅ MongoDB verbunden - yalla!'))
-    .catch(err => console.error('❌ MongoDB Verbindungsfehler:', err));
+    .then(() => console.log('MongoDB verbunden - yalla!'))
+    .catch(err => console.error('MongoDB Verbindungsfehler:', err));
 
 app.use(cors());
 app.use(express.json());
@@ -28,11 +28,11 @@ app.use(express.json());
 app.get('/api/questions', async (req: Request, res: Response) => {
   try {
     const questions = await Question.find();
-    console.log("✅ Fragen gefunden:", questions.length);
+    console.log("Fragen gefunden:", questions.length);
 
     res.json(questions);
   } catch (e) {
-    console.error("❌ Fehler in der Route:", e);
+    console.error("Fehler in der Route:", e);
     res.status(500).json({ error: 'Fehler beim Laden der Fragen' });
   }
 });
@@ -40,12 +40,12 @@ app.get('/api/questions', async (req: Request, res: Response) => {
 app.get('/api/courses', async (req: Request, res: Response) => {
   try {
     const courses = await Course.find().sort({ minPoints: 1 });
-    console.log("✅ Kurse gefunden:", courses.length);
+    console.log("Kurse gefunden:", courses.length);
 
     res.json(courses);
 
   } catch (e) {
-    console.error("❌ Fehler in der Kurs-Route:", e);
+    console.error("Fehler in der Kurs-Route:", e);
     res.status(500).json({ error: 'Fehler beim Laden der Kurse' });
   }
 });
@@ -101,5 +101,5 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server läuft auf http://localhost:${PORT}`);
+  console.log(`Server läuft auf http://localhost:${PORT}`);
 });
