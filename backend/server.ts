@@ -7,7 +7,7 @@ import {Course, type ICourse} from './models/Course.ts';
 import {type IQuestion, type IOption,Question} from './models/Question.ts';
 
 const app = express();
-const PORT = 5001;
+const PORT = process.env.PORT || 5001;
 
 interface IAnswer {
   questionId: string;
