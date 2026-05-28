@@ -48,7 +48,7 @@ function App() {
     useEffect(() => {
         const loadQuestions = async () => {
             try {
-                const response = await axios.get<Question[]>('https://selfinity-lab.onrender.com/api/questions');
+                const response = await axios.get<Question[]>('http://localhost:5001/api/questions');
                 setQuestions(response.data);
             } catch (error) {
                 console.error("Fehler beim Laden der Fragen!", error);
@@ -56,7 +56,7 @@ function App() {
         };
 
         // Status check
-        axios.get('https://selfinity-lab.onrender.com')
+        axios.get('http://localhost:5001')
             .then(response => console.log(response.data))
             .catch(() => console.error("Backend nicht erreichbar!"));
 
