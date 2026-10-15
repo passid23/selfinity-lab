@@ -22,13 +22,27 @@ const Quiz = ({ questions, onComplete }: { questions: Question[], onComplete: (f
             selectedOption
         };
 
-        const updatedAnswers = [...answers, newAnswer];
+        const existingAnswerIndex = answers.findIndex(ans => ans.questionId === newAnswer.questionId);
+        let updatedAnswers: Answer[];
+        if (existingAnswerIndex > -1) {
+            updatedAnswers = [...answers];
+            updatedAnswers[existingAnswerIndex] = newAnswer;
+        } else {
+            updatedAnswers = [...answers, newAnswer];
+        }
+
+        setAnswers(updatedAnswers);
 
         if (currentIndex < questions.length - 1) {
-            setAnswers(updatedAnswers);
             setCurrentIndex(prev => prev + 1);
         } else {
             onComplete(updatedAnswers);
+        }
+    }
+
+    const handleBack = () => {
+        if (currentIndex > 0) {
+            setCurrentIndex(prev => prev - 1);
         }
     }
 
@@ -54,7 +68,14 @@ const Quiz = ({ questions, onComplete }: { questions: Question[], onComplete: (f
             <QuestionCard
                 question={currentQuestion}
                 onAnswer={handleNext}
+                selectedOptionId={answers.find(ans => ans.questionId === currentQuestion._id)?.selectedOption._id}
             />
+
+            {currentIndex > 0 && (
+                <button className="back-button" onClick={handleBack}>
+                    Zurück
+                </button>
+            )}
         </div>
     );
 };
